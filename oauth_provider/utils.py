@@ -46,13 +46,12 @@ def get_oauth_request(request):
     elif 'HTTP_AUTHORIZATION' in request.META:
         auth_header =  {'Authorization': request.META['HTTP_AUTHORIZATION']}
 
-
     # Don't include extra parameters when request.method is POST and
     # request.META['CONTENT_TYPE'] is "application/x-www-form-urlencoded"
     # (See http://oauth.net/core/1.0a/#consumer_req_param).
     parameters = {}
 
-    if not auth_header and request.method == "POST" and (request.META.get('CONTENT_TYPE') == "application/x-www-form-urlencoded"):
+    if not auth_header and request.method == "POST" and (request.META.get('CONTENT_TYPE').startswith("application/x-www-form-urlencoded")):
         parameters = dict((k, v.encode('utf-8')) for (k, v) in request.POST.iteritems())
 
     absolute_uri = request.build_absolute_uri(request.path)
@@ -94,7 +93,7 @@ def verify_oauth_request(request, oauth_request, consumer, token=None):
     return True
 
 def is_xauth_request(request):
-    return request.get('x_auth_password') and request.get('x_auth_username') 
+    return 'x_auth_password' in request and 'x_auth_username' in request
 
 def verify_xauth_request(request, oauth_request):
     """

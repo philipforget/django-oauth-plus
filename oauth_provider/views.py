@@ -144,7 +144,6 @@ def access_token(request):
     is_xauth = is_xauth_request(oauth_request)
 
     if not is_xauth:
-
         # Check Parameters
         missing_params = require_params(oauth_request, ('oauth_token', 'oauth_verifier'))
         if missing_params is not None:
