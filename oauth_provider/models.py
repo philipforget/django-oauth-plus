@@ -77,7 +77,7 @@ class Token(models.Model):
     timestamp = models.IntegerField(default=long(time()))
     is_approved = models.BooleanField(default=False)
     
-    user = models.ForeignKey(AUTH_USER_MODEL, null=True, blank=True, related_name='tokens')
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, blank=True, related_name='oauth_tokens')
     consumer = models.ForeignKey(Consumer)
     scope = models.ForeignKey(Scope, null=True, blank=True)
 
